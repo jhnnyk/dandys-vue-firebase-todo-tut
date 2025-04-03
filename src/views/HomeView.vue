@@ -19,6 +19,10 @@ const addTodo = () => {
   todos.value.unshift(newTodo)
   newTodoContent.value = ''
 }
+
+const deleteTodo = (id) => {
+  todos.value = todos.value.filter((todo) => todo.id !== id)
+}
 </script>
 
 <template>
@@ -43,7 +47,7 @@ const addTodo = () => {
             <div class="column">{{ todo.content }}</div>
             <div class="column is-5 has-text-right">
               <button class="button is-light">&check;</button>
-              <button class="button is-danger ml-2">&cross;</button>
+              <button @click="deleteTodo(todo.id)" class="button is-danger ml-2">&cross;</button>
             </div>
           </div>
         </div>
