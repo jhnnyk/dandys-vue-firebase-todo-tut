@@ -1,25 +1,40 @@
 <script setup>
 import { ref } from 'vue'
+import { v4 as uuidv4 } from 'uuid'
 
 const todos = ref([
   { id: 'id1', content: 'Shave my head', done: false },
   { id: 'id2', content: 'Take a shower', done: false },
   { id: 'id3', content: 'Buy milk', done: false },
 ])
+
+const newTodoContent = ref('')
+
+const addTodo = () => {
+  const newTodo = {
+    id: uuidv4(),
+    content: newTodoContent.value,
+    done: false,
+  }
+  todos.value.unshift(newTodo)
+  newTodoContent.value = ''
+}
 </script>
 
 <template>
   <main>
     <h1 class="is-size-1 has-text-centered">Badass Todo</h1>
 
-    <div class="field is-grouped mb-5">
-      <p class="control is-expanded">
-        <input type="text" class="input" placeholder="Add a todo" />
-      </p>
-      <p class="control">
-        <a href="#" class="button is-info">Add</a>
-      </p>
-    </div>
+    <form @submit.prevent="addTodo">
+      <div class="field is-grouped mb-5">
+        <p class="control is-expanded">
+          <input type="text" v-model="newTodoContent" class="input" placeholder="Add a todo" />
+        </p>
+        <p class="control">
+          <button href="#" class="button is-info" :disabled="!newTodoContent">Add</button>
+        </p>
+      </div>
+    </form>
 
     <div class="card" v-for="todo in todos">
       <div class="card-content">
